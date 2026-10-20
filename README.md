@@ -35,6 +35,10 @@ your client.
 claude mcp add maap --env MAAP_API_KEY=apikey_... -- npx -y maap-mcp
 ```
 
+Not on npm yet — until it is, install straight from this repo by swapping `maap-mcp` for
+`github:hitl-systems/maap-mcp` in any of the above. The built bundle is committed, so there is
+nothing to compile.
+
 **Cursor** — `~/.cursor/mcp.json`: the same `mcpServers` block as Claude Desktop.
 
 | Variable | Required | Default |

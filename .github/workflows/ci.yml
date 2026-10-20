@@ -14,3 +14,8 @@ jobs:
       - run: bun install
       - run: bun run check
       - run: bun run build
+
+      # The bundle is committed, so it can go stale. Rebuild and diff: a PR that edits src/
+      # without rebuilding fails here rather than shipping a server that ignores the change.
+      - name: dist/ matches src/
+        run: git diff --exit-code --stat dist || (echo 'dist/ is stale — run `bun run build` and commit it' && exit 1)

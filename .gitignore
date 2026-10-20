@@ -1,3 +1,6 @@
 node_modules
-dist
 *.tsbuildinfo
+
+# `dist/` is COMMITTED on purpose. `npx github:hitl-systems/maap-mcp` clones and runs `bin`
+# with no build step, and the build needs bun, which a stranger's machine will not have. CI
+# rebuilds and fails if the committed bundle has drifted from src.
