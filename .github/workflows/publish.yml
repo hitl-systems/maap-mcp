@@ -1,0 +1,41 @@
+name: publish
+
+# Tag the release and both halves go out together: the npm package the clients run, and the
+# registry entry the directories read. Publishing them from one job is what keeps
+# `server.json`'s version from naming a package version that does not exist.
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # Both halves need this: npm for provenance, the MCP registry for OIDC login.
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: bun install
+      - run: bun run check
+      - run: bun run build
+
+      - name: Publish to npm
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # The registry reads `mcpName` out of the published package and matches it against
+      # `server.json`'s `name`, so npm has to land first.
+      - name: Publish to the MCP registry
+        run: |
+          curl -sSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m).tar.gz" \
+            | tar xz mcp-publisher
+          ./mcp-publisher login github-oidc
+          ./mcp-publisher publish

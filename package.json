@@ -1,0 +1,29 @@
+{
+  "name": "maap-mcp",
+  "version": "0.1.0",
+  "description": "Calibrated numeric estimates from messy records — the maap API as an MCP server.",
+  "keywords": ["mcp", "modelcontextprotocol", "maap", "estimate", "forecast", "calibration", "uncertainty", "prediction"],
+  "homepage": "https://dash.hitl.systems/docs/quickstart",
+  "repository": { "type": "git", "url": "git+https://github.com/hitl-systems/maap-mcp.git" },
+  "bugs": { "url": "https://github.com/hitl-systems/maap-mcp/issues" },
+  "author": "HITL Systems",
+  "license": "MIT",
+  "type": "module",
+  "bin": { "maap-mcp": "dist/index.js" },
+  "files": ["dist", "README.md", "LICENSE"],
+  "mcpName": "io.github.hitl-systems/maap",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "bun build src/index.ts --target node --outfile dist/index.js && chmod +x dist/index.js",
+    "check": "tsc --noEmit",
+    "prepublishOnly": "bun run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "^2.3.1",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "typescript": "^5.9.0"
+  }
+}

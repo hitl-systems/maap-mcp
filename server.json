@@ -1,0 +1,32 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.hitl-systems/maap",
+  "description": "Calibrated numeric estimates with uncertainty from messy records",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/hitl-systems/maap-mcp",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "maap-mcp",
+      "version": "0.1.0",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        {
+          "name": "MAAP_API_KEY",
+          "description": "API key from https://dash.hitl.systems/keys",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "MAAP_BASE_URL",
+          "description": "Override the API base URL. Defaults to https://dash.hitl.systems",
+          "isRequired": false,
+          "isSecret": false
+        }
+      ]
+    }
+  ]
+}
