@@ -34,8 +34,11 @@ jobs:
       # The registry reads `mcpName` out of the published package and matches it against
       # `server.json`'s `name`, so npm has to land first.
       - name: Publish to the MCP registry
+        # `linux_amd64` is the asset name, not `linux_x86_64` — the runner's own `uname -m`
+        # spells it the other way and 404s.
         run: |
-          curl -sSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m).tar.gz" \
+          curl -sSL https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz \
             | tar xz mcp-publisher
+          ./mcp-publisher validate
           ./mcp-publisher login github-oidc
           ./mcp-publisher publish
